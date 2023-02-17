@@ -2,6 +2,9 @@ import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import countries from "i18n-iso-countries"
+import enLocale from "i18n-iso-countries/langs/en.json"
+
 const { getCode, getName } = require('country-list');
 
 const API_URL = 'https://www.drupal.org/api-d7'
@@ -12,22 +15,24 @@ export default function Home({ users }) {
   const [username, setUsername] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
+  const [selectedCountry, setSelectedCountry] = useState('')
   const [queryParam, setQueryParam] = useState('')
 
   useEffect(() => {
-    // reset form with user data
     makeQuery([
       {'name': username}, 
       {'field_first_name' : firstName}, 
-      {'field_last_name': lastName}
+      {'field_last_name': lastName},
+      {'field_country': selectedCountry}
     ]);
 
-  }, [username, firstName, lastName]);
+  }, [username, firstName, lastName, selectedCountry]);
 
   if(users === 'undefined') {
     return;
   }
-
+  
+  // Date unix timestamp.
   const formartJoinedDate = (joinedDate)=> {
     const dateFormat = new Date(parseInt(joinedDate) * 1000);
     const year  = dateFormat.getFullYear();
@@ -36,13 +41,24 @@ export default function Home({ users }) {
     return `${year}-${month}-${day}`
   }
 
+  //Register the language.
+  countries.registerLocale(enLocale)
+  const countryObj = countries.getNames("en", {select: "official"})
+  const countryArr = Object.entries(countryObj).map(([key, value]) => {
+    return {
+      label: value,
+      value: key
+    }
+  })
+  
+  // Get country code.
   const getUserCountry = (countryCode) => {
     if(countryCode[0]?.toLowerCase() !== undefined) {
       return getName(countryCode[0]?.toLowerCase())
     }
   }
   
-
+  // Create search query based on filters.
   const makeQuery = (filters) => {
     let temp = ''
     let flag = true
@@ -72,17 +88,34 @@ export default function Home({ users }) {
     setLastName(event.target.value);
   };
 
+  const handleCountryChange = (event) => {
+    setSelectedCountry(event.target.value);
+  }
+
+  // Submit handler.
   const handleSubmit = (e) => {
     e.preventDefault();
-    async function fetchData() {
-      const response = await fetch(
-        `${API_URL}/user.json?${queryParam}`
-      );
-      const data = await response.json();
-      setUserProfile(data);
+    if(queryParam !== '') {
+      async function fetchData() {
+        const response = await fetch(
+          `${API_URL}/user.json?${queryParam}`
+        );
+        const data = await response.json();
+        setUserProfile(data);
+      }
+      fetchData();
     }
-    fetchData();
   };
+
+  // Rest form.
+  const resetForm = (e) => {
+    e.preventDefault();
+    setUsername('');
+    setFirstName('');
+    setLastName('');
+    setSelectedCountry('');
+    setUserProfile(users);
+  }
 
   const userData = userProfile == null ? users.list : userProfile.list
 
@@ -122,22 +155,34 @@ export default function Home({ users }) {
               onChange={handleLastNameChange}
               name="last-name"
             />
+            <select
+              value={selectedCountry}
+              onChange={handleCountryChange}
+              name='country'
+            >
+              <option value="">Select country</option>
+              {countryArr?.length && countryArr.map(({label, value}, i) => (
+                  <option key={i} value={value}>{label}</option>
+                ))}
+            </select>
 
-            <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
+            <button className="" type="submit">
               Search
+            </button>
+            <button onClick={resetForm}>
+              Reset
             </button>
           </form>
           <div className={styles.cards}>
-            {}
-            {userData.map((user, i) => (
-              <div key={i} className={styles.card}>
-                <span>username: {user.name}</span>
-                <span>Fname: {user.field_first_name}</span>
-                <span>Lname: {user.field_last_name}</span>
-                <span>Joined on: {formartJoinedDate(user.created)}</span>
-                <span>Country: {getUserCountry(user?.field_country)}</span>
-                <Link href={user.url} target='_blank'>Drupal profile</Link>
-              </div>
+            {countryArr?.length && userData.map((user, i) => (
+                <div key={i} className={styles.card}>
+                  <span>username: {user.name}</span>
+                  <span>Fname: {user.field_first_name}</span>
+                  <span>Lname: {user.field_last_name}</span>
+                  <span>Joined on: {formartJoinedDate(user.created)}</span>
+                  <span>Country: {getUserCountry(user?.field_country)}</span>
+                  <Link href={user.url} target='_blank'>Drupal profile</Link>
+                </div>
             ))}
           </div>
         </div>
@@ -145,7 +190,6 @@ export default function Home({ users }) {
     </>
   )
 }
-
 
 export async function getStaticProps() {
   const res = await fetch(`${API_URL}/user.json?limit=40&page=1&sort=created&direction=DESC`)
