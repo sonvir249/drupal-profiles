@@ -51,7 +51,6 @@ export default function SearchForm ({ profiles = null }) {
         } else {
           temp += `&${Object.keys(value)[0]}=${value[Object.keys(value)[0]]}`
         }
-        temp += `&limit=48&page=1&sort=created&direction=DESC`
       }
     })
     setQueryParam(temp)
