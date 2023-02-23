@@ -6,7 +6,7 @@
 }
 .container {
   padding: 0 15px;
-  margin: 0 auto;
+  margin: 1rem auto;
 }
 
 .cards {
@@ -27,9 +27,17 @@
   width: 100%;
 }
 
+.card:hover {
+  border: 2px solid rgb(5 80 230)
+}
+
 .content {
   padding: 1rem;
   display: grid;
+}
+
+.content-data {
+  line-height: 1.5rem;
 }
 
 .show_warning {
@@ -109,11 +117,10 @@
   text-decoration: none;
   transition: 750ms;
   display: block;
-  border-radius: 5px;
 }
 
 .card-link:hover {
-  transform: scale(.95);
+  
 }
 
 .no_result {
