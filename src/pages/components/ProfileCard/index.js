@@ -15,21 +15,39 @@ export default function ProfileCard({ cardProfiles, isLoading, countriesList }) 
     <div>
       {isLoading ? 
           <LoadingScreen />
-          : <div className={styles.cards}>
-              {cardProfiles?.list?.map((user, i) => (
-                <div key={i} className={styles.card}>
-                  <span>username: {user.name}</span>
-                  <span>Fname: {user.field_first_name}</span>
-                  <span>Lname: {user.field_last_name}</span>
-                  <span>Joined on: {formartJoinedDate(user.created)}</span>
-                  {user?.field_country.length ?
-                    <span>Country: {countriesList.getName(user?.field_country[0], 'en')}</span>
-                    : ''
-                  }
-                  <Link href={user.url} target='_blank'>Drupal profile</Link>
+          : <>
+              {cardProfiles?.list.length ? 
+                <div className={styles.cards}>
+                  {cardProfiles?.list?.map((user, i) => (
+                    <div key={i} className={styles.card}>
+                      <div>
+                        <p>username: {user.name}</p>
+                        {user?.field_first_name !== null ?
+                          <p>Fname: {user.field_first_name}</p>
+                          : ''
+                        }
+                        {user?.field_last_name !== null ?
+                          <p>Lname: {user.field_last_name}</p>
+                          : ''
+                        }
+                        <p>Joined on: {formartJoinedDate(user.created)}</p>
+                        {user?.field_country.length ?
+                          <p>Country: {countriesList.getName(user?.field_country[0], 'en')}</p>
+                          : ''
+                        }
+                      </div>
+                      <div className={styles['card-link-wrapper']}>
+                        <Link href={user.url} target='_blank' className={styles['card-link']}>Drupal profile</Link>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+                : <div className={styles['no_result']}>
+                    <h2>Nothing Found</h2>
+                    <p>Sorry, but nothing matched your search of <b>[search keywords]</b>. Please try again with some different keywords.</p>
+                  </div>
+              }
+              </>
         }
     </div>
   )

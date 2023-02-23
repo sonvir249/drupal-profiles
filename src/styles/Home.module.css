@@ -5,33 +5,26 @@
   text-align: center
 }
 .container {
-  max-width: 1400px;
   padding: 0 15px;
   margin: 0 auto;
-}
-
-.card {
-  padding: 1rem;
-  height: 10rem;
-  transition: filter 0.5s ease;
-  display: flex;
-  background: var(--light);
-  box-shadow: var(--shadow);
-  font-family: sans-serif;
-  flex-direction: column;
-  border-radius: 5px;
-  align-items: flex-start
 }
 
 .cards {
   margin: 0 auto;
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: space-between
 }
 
-.cards .card:hover {
-  filter: contrast(0.7);
+.card {
+  padding: 1rem;
+  height: 13rem;
+  transition: filter 0.5s ease;
+  box-shadow: var(--shadow);
+  font-family: sans-serif;
+  border-radius: 5px;
+  position: relative;
 }
 
 .show_warning {
@@ -44,7 +37,7 @@
 }
 
 .search_form {
-  padding: 1rem;
+  padding: 1rem 0;
   display: flex;
   justify-content: center;
 }
@@ -60,7 +53,6 @@
   border-radius: 0.3rem;
   padding: calc(0.75rem - 1px) calc(1rem - 1px);
   font-size: 0.7rem;
-  max-width: 100%;
 }
 
 .form_element:hover {
@@ -96,12 +88,58 @@
   justify-content: center;
 }
 
+.card .card-link-wrapper {
+  position: absolute;
+  bottom: 0;
+}
 
-@media (max-width: 1300px) {
+.card-link {
+  background: rgb(5 80 230);
+  padding: 10px 30px;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 750ms;
+  display: block;
+  width: 100%
+}
+
+.card-link:hover {
+  transform: scale(.95);
+}
+
+.no_result {
+  font-family: PT Sans;
+  text-align: center;
+}
+
+@media screen and (max-width: 1200px) {
   .search_form, .fieldset {
     flex-direction: column;
   }
   .form_element {
-    width: 100%;
+    width: -webkit-fill-available;
+  }
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .cards {
+    grid-template-columns: repeat(1, 1fr);
   }
 }

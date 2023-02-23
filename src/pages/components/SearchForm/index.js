@@ -180,8 +180,8 @@ export default function SearchForm ({ profiles = null }) {
               <p id='warning-message' className={styles[`${displayWarning}`]}>Atleast one field is required to filter data.</p>
             </div>
           </form>
+          <ProfileCard cardProfiles={searchedProfile} isLoading={isLoading} countriesList={countries} />
         </div>
-        <ProfileCard cardProfiles={searchedProfile} isLoading={isLoading} countriesList={countries} />
       </main>
     </>
   )
