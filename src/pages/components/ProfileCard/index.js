@@ -20,19 +20,19 @@ export default function ProfileCard({ cardProfiles, isLoading, countriesList }) 
                 <div className={styles.cards}>
                   {cardProfiles?.list?.map((user, i) => (
                     <div key={i} className={styles.card}>
-                      <div>
-                        <p>username: {user.name}</p>
+                      <div className={styles['content']}>
+                        <span>username: {user.name}</span>
                         {user?.field_first_name !== null ?
-                          <p>Fname: {user.field_first_name}</p>
+                          <span>Fname: {user.field_first_name}</span>
                           : ''
                         }
                         {user?.field_last_name !== null ?
-                          <p>Lname: {user.field_last_name}</p>
+                          <span>Lname: {user.field_last_name}</span>
                           : ''
                         }
-                        <p>Joined on: {formartJoinedDate(user.created)}</p>
+                        <span>Joined on: {formartJoinedDate(user.created)}</span>
                         {user?.field_country.length ?
-                          <p>Country: {countriesList.getName(user?.field_country[0], 'en')}</p>
+                          <span>Country: {countriesList.getName(user?.field_country[0], 'en')}</span>
                           : ''
                         }
                       </div>
