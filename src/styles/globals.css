@@ -7,3 +7,7 @@
 }
 
 html { font-size: 22px; }
+
+.form-action input {
+  padding: 0.375rem 0.5rem;
+}

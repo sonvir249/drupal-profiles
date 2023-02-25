@@ -1,10 +1,8 @@
-import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
 import { useState, useEffect } from 'react'
 import countries from "i18n-iso-countries"
 import enLocale from "i18n-iso-countries/langs/en.json"
-import ProfileCard from '../ProfileCard'
-
+import ProfileTable from '../ProfileTable'
 const API_URL = 'https://www.drupal.org/api-d7'
 
 export default function SearchForm ({ profiles = null }) {
@@ -106,83 +104,74 @@ export default function SearchForm ({ profiles = null }) {
 
   return (
     <>
-      <Head>
-        <title>Drupal profiles</title>
-        <meta name="description" content="Drupal profiles" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main>
-        <div className={styles.container}>
-          <div className={styles['page-title']}><h1>Welcome to Drupal Profiles</h1></div>
-          <form id='search-form' onSubmit={handleSubmit}>
-            <div className={styles.search_form}>
-              <fieldset className={styles.fieldset} disabled={isLoading ? 'disabled' : ''}>
-                <div className={styles.form_item}>
-                  <input
-                    aria-label="username"
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={handleUsernameChange}
-                    name="username"
-                    className={styles.form_element}
-                  />
-                </div>
-                <div className={styles.form_item}>
-                  <input
-                    aria-label="first name"
-                    type="text"
-                    placeholder="First Name"
-                    value={firstName}
-                    onChange={handleFirstNameChange}
-                    name="first-name"
-                    className={styles.form_element}
-                  />
-                </div>
-                <div className={styles.form_item}>
-                  <input
-                    aria-label="last name"
-                    type="text"
-                    placeholder="Last Name"
-                    value={lastName}
-                    onChange={handleLastNameChange}
-                    name="last-name"
-                    className={styles.form_element}
-                  />
-                </div>
-                <div className={styles.form_item}>
-                  <select
-                    value={selectedCountry}
-                    onChange={handleCountryChange}
-                    name='country'
-                    className={styles.form_element}
-                  >
-                    <option value="">Select country</option>
-                    {countryArr?.length && countryArr.map(({label, value}, i) => (
-                        <option key={i} value={value}>{label}</option>
-                      ))}
-                  </select>
-                  </div>
-                <div className={styles.form_item}>
-                  <button className={styles.form_submit} type="submit">
-                    Search
-                  </button>
-                </div>
-                <div className={styles.form_item}>
-                  <button className={styles.form_submit} type="submit" onClick={resetForm}>
-                    Reset
-                  </button>
-                </div>
-              </fieldset>
-            </div>
-            <div className={styles['warning-text']}>
-              <p id='warning-message' className={styles[`${displayWarning}`]}>Atleast one field is required to filter data.</p>
+      <div className="container">
+        <div className='form-action my-4'>
+          <form id='search-form' onSubmit={handleSubmit} className='row g-1'>
+            {/* <fieldset className={styles.fieldset} disabled={isLoading ? 'disabled' : ''}> */}
+              <div className="col-auto">
+                <input
+                  aria-label="username"
+                  type="text"
+                  placeholder="Username"
+                  value={username}
+                  onChange={handleUsernameChange}
+                  name="username"
+                  className="form-control"
+                />
+              </div>
+              <div className="col-auto">
+                <input
+                  aria-label="first name"
+                  type="text"
+                  placeholder="First Name"
+                  value={firstName}
+                  onChange={handleFirstNameChange}
+                  name="first-name"
+                  className="form-control"
+                />
+              </div>
+              <div className="col-auto">
+                <input
+                  aria-label="last name"
+                  type="text"
+                  placeholder="Last Name"
+                  value={lastName}
+                  onChange={handleLastNameChange}
+                  name="last-name"
+                  className="form-control"
+                />
+              </div>
+              <div className="col-auto">
+                <select
+                  value={selectedCountry}
+                  onChange={handleCountryChange}
+                  name='country'
+                  className="form-control"
+                >
+                  <option value="">Select country</option>
+                  {countryArr?.length && countryArr.map(({label, value}, i) => (
+                      <option key={i} value={value}>{label}</option>
+                    ))}
+                </select>
+              </div>
+              <div className="col-auto">
+                <button className="btn btn-primary mb-3" type="submit">
+                  Search
+                </button>
+              </div>
+              <div className="col-auto">
+                <button className="btn btn-primary mb-3" type="submit" onClick={resetForm}>
+                  Reset
+                </button>
+              </div>
+            {/* </fieldset> */}
+            <div className={styles[`${displayWarning}`]}>
+              <p className="alert alert-danger container">Atleast one field is required to filter data.</p>
             </div>
           </form>
-          <ProfileCard cardProfiles={searchedProfile} isLoading={isLoading} countriesList={countries} />
         </div>
-      </main>
+        <ProfileTable cardProfiles={searchedProfile} isLoading={isLoading} countriesList={countries} />
+      </div>
     </>
   )
 }
