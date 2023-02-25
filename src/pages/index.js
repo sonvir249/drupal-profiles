@@ -18,11 +18,12 @@ export default function Home({ errorCode, profiles }) {
     <>
       <Navbar bg="primary" expand="lg" sticky='top' variant="dark">
         <Container>
-          <Navbar.Brand><span> <Image src="/drupal-logo.svg" width='50' height='50' alt='durpal-logo' /></span>Drupal profile finder <span className={styles['built-with']}>Built with NextJs</span></Navbar.Brand>
+          <Navbar.Brand><span> <Image src="/drupal-logo.svg" width='50' height='50' alt='durpal-logo' /></span>Drupal Profile Finder <span className={styles['built-with']}>Built with NextJs</span></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Nav.Link href="#">Leave Feedback</Nav.Link>
+              <Nav.Link href="https://forms.gle/YUKWQJWMszBksZ2G8" className='text-white' target='_blank'>Leave Feedback</Nav.Link>
+              <Nav.Link href="https://github.com/sonvir249/drupal-profiles" target='_blank' className='text-white'>Gitub</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
