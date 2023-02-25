@@ -18,7 +18,7 @@ export default function ProfileTable({ cardProfiles, isLoading, countriesList })
           <LoadingScreen />
           : <>
               {cardProfiles?.list.length ? 
-                <div className="table-responsive">
+                <div className="table-responsive table-responsive-sm table-responsive-md table-responsive-lg">
                   <table className="table table-hover table-bordered">
                     <thead>
                       <tr>

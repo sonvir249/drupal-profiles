@@ -104,7 +104,7 @@ export default function SearchForm ({ profiles = null }) {
 
   return (
     <>
-      <div className="container">
+      <div className="container-fluid">
         <div className='form-action my-4'>
           <form id='search-form' onSubmit={handleSubmit} className='row g-1'>
             {/* <fieldset className={styles.fieldset} disabled={isLoading ? 'disabled' : ''}> */}
@@ -155,12 +155,12 @@ export default function SearchForm ({ profiles = null }) {
                 </select>
               </div>
               <div className="col-auto">
-                <button className="btn btn-primary mb-3" type="submit">
+                <button className="btn btn-primary btn-block" type="submit">
                   Search
                 </button>
               </div>
               <div className="col-auto">
-                <button className="btn btn-primary mb-3" type="submit" onClick={resetForm}>
+                <button className="btn btn-primary btn-block" type="submit" onClick={resetForm}>
                   Reset
                 </button>
               </div>
