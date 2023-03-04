@@ -12,6 +12,14 @@ export default function ProfileTable({ cardProfiles, isLoading, countriesList })
     return `${year}-${month}-${day}`
   }
 
+  const getFullName = (firstName, lastName) => {
+    let fullName = '';
+    if (firstName !== null || (firstName !== null && lastName !== null)) {
+      fullName = `${firstName} ${lastName}`;
+    }
+    return fullName.length > 15 ? firstName : fullName;
+  }
+
   return (
     <>
       {isLoading ? 
@@ -35,12 +43,7 @@ export default function ProfileTable({ cardProfiles, isLoading, countriesList })
                         <tr key={i} >
                           <td>{i+1}</td>
                           <td>{user.name}</td>
-                          <td>
-                            {user?.field_first_name !== null || (user?.field_first_name !== null && user?.field_last_name !== null) ?
-                              <p>{user.field_first_name} {user.field_last_name}</p>
-                              : ''
-                            }
-                          </td>
+                          <td>{getFullName(user?.field_first_name, user?.field_last_name)}</td>
                           <td>{formartJoinedDate(user.created)}</td>
                           <td>
                             {user?.field_country.length ?
