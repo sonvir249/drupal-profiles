@@ -52,7 +52,7 @@ export default function ProfileTable({ cardProfiles, isLoading, countriesList })
                             }
                           </td>
                           <td>
-                            <Link href={user.url} target='_blank' className="btn btn-success btn-sm">View profile</Link>
+                            <Link href={user.url} target='_blank' className="text-decoration-none">View profile</Link>
                           </td>
                         </tr>
                       ))}
