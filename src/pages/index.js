@@ -18,20 +18,20 @@ export default function Home({ errorCode, profiles }) {
     <>
       <Navbar bg="primary" expand="lg" sticky='top' variant="dark">
         <Container>
-          <Navbar.Brand><span> <Image src="/drupal-logo.svg" width='50' height='50' alt='durpal-logo' /></span>Drupal Profile Finder <span className={styles['built-with']}>Built with NextJs</span></Navbar.Brand>
+          <Navbar.Brand><span> <Image src="/drupal-logo.svg" width='50' height='50' alt='durpal-logo' /></span>Drupal Profile Finder</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               <Nav.Link href="https://forms.gle/YUKWQJWMszBksZ2G8" className='text-white' target='_blank'>Leave Feedback</Nav.Link>
-              <Nav.Link href="https://github.com/sonvir249/drupal-profiles" target='_blank' className='text-white'>Gitub</Nav.Link>
+              <Nav.Link href="https://github.com/sonvir249/drupal-profiles" target='_blank' className='text-white'>Github</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
       <SearchForm profiles={profiles} />
-      <footer class="my-4">
+      <footer className="my-4">
         <div className='border-top'>
-          <p class="trademark text-center">Drupal is a <Link href="http://drupal.com/trademark" target="_blank">registered trademark</Link> of <Link href="https://dri.es" target="_blank">Dries Buytaert</Link>.</p>
+          <p className={`${styles.trademark} text-center`}>Built with <Link href="https://nextjs.org/" target="_blank">NEXT.js</Link></p>
         </div>
       </footer>
     </>

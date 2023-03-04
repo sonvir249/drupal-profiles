@@ -1,7 +1,6 @@
-.built-with {
-  font-size: 12px;
-  color: black;
+.trademark {
   font-weight: bold;
+  text-decoration: none;
 }
 
 .show_warning {
