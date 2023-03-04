@@ -1,4 +1,4 @@
-import SearchForm from './components/SearchForm'
+import SearchForm from '../components/SearchForm'
 import Error from 'next/error'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
