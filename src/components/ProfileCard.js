@@ -1,6 +1,6 @@
 import Link from "next/link"
 import styles from '@/styles/Home.module.css'
-import LoadingScreen from '../LoadingScreen'
+import LoadingScreen from './LoadingScreen'
 
 export default function ProfileCard({ cardProfiles, isLoading, countriesList }) {
   // Date unix timestamp.

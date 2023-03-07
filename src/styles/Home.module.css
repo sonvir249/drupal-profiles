@@ -1,6 +1,7 @@
 .trademark {
   font-weight: bold;
   text-decoration: none;
+  margin: 1rem 0;
 }
 
 .show_warning {
@@ -13,4 +14,13 @@
 
 .warning-text {
   text-align: center
+}
+
+.loading-screen-wrapper {
+  display: flex;
+  justify-content: space-around;
+  align-content: space-between;
+}
+.nounderline {
+  text-decoration: none;
 }

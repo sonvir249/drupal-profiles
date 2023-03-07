@@ -2,7 +2,7 @@ import styles from '@/styles/Home.module.css'
 import { useState, useEffect } from 'react'
 import countries from "i18n-iso-countries"
 import enLocale from "i18n-iso-countries/langs/en.json"
-import ProfileTable from '../ProfileTable'
+import ProfileTable from './ProfileTable'
 const API_URL = 'https://www.drupal.org/api-d7'
 
 export default function SearchForm ({ profiles = null }) {
@@ -15,6 +15,7 @@ export default function SearchForm ({ profiles = null }) {
   const [queryParam, setQueryParam] = useState('')
   const [displayWarning, setDisplayWarning] = useState('hide_warning')
   const [isLoading, setLoading] = useState(false)
+  const [lastPageProfiles, setLastPageProfiles] = useState({})
 
   useEffect(() => {
     makeQuery([
@@ -82,6 +83,7 @@ export default function SearchForm ({ profiles = null }) {
           data = await data.json()
           setSearchedProfile(data)
           setLoading(false)
+          setDisplayWarning('hide_warning')
         }
       }).catch(e => console.log('Connection error', e))
     } else {
@@ -102,13 +104,48 @@ export default function SearchForm ({ profiles = null }) {
     setDisplayWarning('hide_warning')
   }
 
+  useEffect(() => {
+    const paramString = searchedProfile['last'].split('?')[1];
+    const urlParams = new URLSearchParams(paramString);
+    const lastPage = urlParams.get('page');
+    if(!queryParam && lastPage > 0) {
+      fetch(`${API_URL}/user.json?${queryParam}&page=${lastPage}`)
+      .then(async (data) => {
+        if (data.ok) {
+          data = await data.json()
+          setLastPageProfiles(data);
+        }
+      }).catch(e => console.log('Connection error', e))
+    }
+
+  }, [searchedProfile, queryParam])
+
+  const getTotalProfiles = () => {
+    const paramString = searchedProfile['last'].split('?')[1];
+    const urlParams = new URLSearchParams(paramString);
+    const lastPage = urlParams.get('page');
+    let totalUsers = searchedProfile?.list?.length;
+
+    if(lastPage == 1) {
+      totalUsers = 50 + (lastPageProfiles?.list?.length)
+    } else if (lastPage > 1) {
+      totalUsers = (50* (lastPage-1)) + (lastPageProfiles?.list?.length)
+    }
+
+    if(!isLoading && totalUsers > 0) {
+      return (
+        <p>Found {totalUsers} profiles.</p>
+      );
+    }
+  }
+
   return (
     <>
-      <div className="container-fluid">
+      <div className="container">
         <div className='form-action my-4'>
           <form id='search-form' onSubmit={handleSubmit} className='row g-1'>
             {/* <fieldset className={styles.fieldset} disabled={isLoading ? 'disabled' : ''}> */}
-              <div className="col-auto">
+              <div className="col-lg-2">
                 <input
                   aria-label="username"
                   type="text"
@@ -119,7 +156,7 @@ export default function SearchForm ({ profiles = null }) {
                   className="form-control"
                 />
               </div>
-              <div className="col-auto">
+              <div className="col-lg-2">
                 <input
                   aria-label="first name"
                   type="text"
@@ -130,7 +167,7 @@ export default function SearchForm ({ profiles = null }) {
                   className="form-control"
                 />
               </div>
-              <div className="col-auto">
+              <div className="col-lg-2">
                 <input
                   aria-label="last name"
                   type="text"
@@ -141,7 +178,7 @@ export default function SearchForm ({ profiles = null }) {
                   className="form-control"
                 />
               </div>
-              <div className="col-auto">
+              <div className="col-lg-2">
                 <select
                   value={selectedCountry}
                   onChange={handleCountryChange}
@@ -154,22 +191,20 @@ export default function SearchForm ({ profiles = null }) {
                     ))}
                 </select>
               </div>
-              <div className="col-auto">
-                <button className="btn btn-primary btn-block" type="submit">
-                  Search
-                </button>
+              <div class=" col-lg-4 d-grid gap-2 d-md-block">
+                  <button className="btn btn-primary" type="submit">
+                    Search
+                  </button>
+                  <button className="btn btn-primary" type="submit" onClick={resetForm}>
+                    Reset
+                  </button>
               </div>
-              <div className="col-auto">
-                <button className="btn btn-primary btn-block" type="submit" onClick={resetForm}>
-                  Reset
-                </button>
-              </div>
-            {/* </fieldset> */}
             <div className={styles[`${displayWarning}`]}>
               <p className="alert alert-danger container">Atleast one field is required to filter data.</p>
             </div>
           </form>
         </div>
+        <div className=''>{getTotalProfiles()}</div>
         <ProfileTable cardProfiles={searchedProfile} isLoading={isLoading} countriesList={countries} />
       </div>
     </>

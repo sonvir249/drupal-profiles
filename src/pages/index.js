@@ -1,4 +1,4 @@
-import SearchForm from '../components/SearchForm'
+import SearchForm from '@/components/SearchForm'
 import Error from 'next/error'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
@@ -31,7 +31,7 @@ export default function Home({ errorCode, profiles }) {
       <SearchForm profiles={profiles} />
       <footer className="my-4">
         <div className='border-top'>
-          <p className={`${styles.trademark} text-center`}>Built with <Link href="https://nextjs.org/" target="_blank">NEXT.js</Link></p>
+          <p className={`${styles.trademark} text-center`}>Made with <Link href="https://nextjs.org/" target="_blank" className={styles.nounderline}>NEXT.js</Link></p>
         </div>
       </footer>
     </>

@@ -1,6 +1,6 @@
 import Link from "next/link"
 import styles from '@/styles/Home.module.css'
-import LoadingScreen from '../LoadingScreen'
+import LoadingScreen from './LoadingScreen'
 
 export default function ProfileTable({ cardProfiles, isLoading, countriesList }) {
   // Date unix timestamp.
@@ -26,9 +26,9 @@ export default function ProfileTable({ cardProfiles, isLoading, countriesList })
           <LoadingScreen />
           : <>
               {cardProfiles?.list.length ? 
-                <div className="table-responsive table-responsive-sm table-responsive-md table-responsive-lg">
-                  <table className="table table-hover table-bordered">
-                    <thead>
+                <div className="table-responsive table-responsive-md">
+                  <table className="table table-bordered table-sm caption-top">
+                    <thead className="table-light">
                       <tr>
                         <th>#</th>
                         <th>Username</th>
@@ -47,7 +47,7 @@ export default function ProfileTable({ cardProfiles, isLoading, countriesList })
                           <td>{formartJoinedDate(user.created)}</td>
                           <td>
                             {user?.field_country.length ?
-                              <p>{countriesList.getName(user?.field_country[0], 'en')}</p>
+                              <>{countriesList.getName(user?.field_country[0], 'en')}</>
                               : ''
                             }
                           </td>
