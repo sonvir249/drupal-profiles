@@ -191,8 +191,8 @@ export default function SearchForm ({ profiles = null }) {
                     ))}
                 </select>
               </div>
-              <div class=" col-lg-4 d-grid gap-2 d-md-block">
-                  <button className="btn btn-primary" type="submit">
+              <div className="col-lg-4 d-grid gap-2 d-md-block">
+                  <button className={`btn btn-primary ${styles['search-button']}`} type="submit">
                     Search
                   </button>
                   <button className="btn btn-primary" type="submit" onClick={resetForm}>
