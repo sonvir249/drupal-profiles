@@ -55,6 +55,10 @@ export default function Home({ errorCode, profiles }) {
         </Container>
       </Navbar>
       <div className="container">
+        <div className='text-center'>
+          <h1 class="mb-1">Drupal Profile Finder</h1>
+          <h6 class="mb-5"><em>Search any profile create on <Link href="https://www.drupal.org/" className={styles.nounderline} target='_blank'>drupal.org</Link></em></h6>
+        </div>
         <SearchForm profiles={profiles} />
         <footer className="my-4">
           <div className='border-top'>
