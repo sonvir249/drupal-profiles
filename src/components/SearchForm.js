@@ -141,72 +141,64 @@ export default function SearchForm ({ profiles = null }) {
 
   return (
     <>
-      <div className="container">
-        <div className='form-action my-4'>
-          <form id='search-form' onSubmit={handleSubmit} className='row g-1'>
-            {/* <fieldset className={styles.fieldset} disabled={isLoading ? 'disabled' : ''}> */}
-              <div className="col-lg-2">
-                <input
-                  aria-label="username"
-                  type="text"
-                  placeholder="Username"
-                  value={username}
-                  onChange={handleUsernameChange}
-                  name="username"
-                  className="form-control"
-                />
-              </div>
-              <div className="col-lg-2">
-                <input
-                  aria-label="first name"
-                  type="text"
-                  placeholder="First Name"
-                  value={firstName}
-                  onChange={handleFirstNameChange}
-                  name="first-name"
-                  className="form-control"
-                />
-              </div>
-              <div className="col-lg-2">
-                <input
-                  aria-label="last name"
-                  type="text"
-                  placeholder="Last Name"
-                  value={lastName}
-                  onChange={handleLastNameChange}
-                  name="last-name"
-                  className="form-control"
-                />
-              </div>
-              <div className="col-lg-2">
-                <select
-                  value={selectedCountry}
-                  onChange={handleCountryChange}
-                  name='country'
-                  className="form-control"
-                >
-                  <option value="">Select country</option>
-                  {countryArr?.length && countryArr.map(({label, value}, i) => (
-                      <option key={i} value={value}>{label}</option>
-                    ))}
-                </select>
-              </div>
-              <div className="col-lg-4 d-grid gap-2 d-md-block">
-                  <button className={`btn btn-primary ${styles['search-button']}`} type="submit">
-                    Search
-                  </button>
-                  <button className="btn btn-primary" type="submit" onClick={resetForm}>
-                    Reset
-                  </button>
-              </div>
-            <div className={styles[`${displayWarning}`]}>
-              <p className="alert alert-danger container">Atleast one field is required to filter data.</p>
-            </div>
-          </form>
-        </div>
-        <div className=''>{getTotalProfiles()}</div>
-        <ProfileTable cardProfiles={searchedProfile} isLoading={isLoading} countriesList={countries} />
+      <div className='form-action my-4'>
+        <form id='search-form' onSubmit={handleSubmit} className='row g-1'>
+          <div className="col-lg-2">
+            <input
+              aria-label="username"
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={handleUsernameChange}
+              name="username"
+              className="form-control"
+            />
+          </div>
+          <div className="col-lg-2">
+            <input
+              aria-label="first name"
+              type="text"
+              placeholder="First Name"
+              value={firstName}
+              onChange={handleFirstNameChange}
+              name="first-name"
+              className="form-control"
+            />
+          </div>
+          <div className="col-lg-2">
+            <input
+              aria-label="last name"
+              type="text"
+              placeholder="Last Name"
+              value={lastName}
+              onChange={handleLastNameChange}
+              name="last-name"
+              className="form-control"
+            />
+          </div>
+          <div className="col-lg-2">
+            <select value={selectedCountry} onChange={handleCountryChange} name='country' className="form-control">
+              <option value="">Select country</option>
+              {countryArr?.length && countryArr.map(({label, value}, i) => (
+                  <option key={i} value={value}>{label}</option>
+                ))}
+            </select>
+          </div>
+          <div className="col-lg-4 d-grid gap-2 d-md-block">
+              <button className={`btn btn-primary ${styles['search-button']}`} type="submit">
+                Search
+              </button>
+              <button className="btn btn-primary" type="submit" onClick={resetForm}>
+                Reset
+              </button>
+          </div>
+          <div className={styles[`${displayWarning}`]}>
+            <p className="alert alert-danger container">Atleast one field is required to filter data.</p>
+          </div>
+        </form>
       </div>
+      <div className=''>{getTotalProfiles()}</div>
+      <ProfileTable cardProfiles={searchedProfile} isLoading={isLoading} countriesList={countries} />
     </>
   )
 }

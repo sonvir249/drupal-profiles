@@ -6,34 +6,65 @@ import Navbar from 'react-bootstrap/Navbar'
 import Link from 'next/link'
 import styles from '@/styles/Home.module.css'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
 const API_URL = 'https://www.drupal.org/api-d7'
 
 export default function Home({ errorCode, profiles }) {
+  const [isScroll, setIsScroll] = useState(false)
+
+  const topFunction = ()=> {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+
+  const changeNavbarColor = () => {
+    let backToTopButton = document.getElementById("back-to-top");
+    if (window.scrollY >= 20) {
+      backToTopButton.style.display = "block";
+      setIsScroll(true)
+    }
+    else {
+      setIsScroll(false)
+      backToTopButton.style.display = "none";
+    }
+  }
+
+  useEffect(() => {
+    changeNavbarColor()
+    window.addEventListener("scroll", changeNavbarColor)
+  });
+
   if (errorCode) {
     return <Error statusCode={errorCode} />
   }
 
   return(
     <>
-      <Navbar bg="primary" expand="lg" sticky='top' variant="dark">
+      <div className={styles['top-button']} onClick={topFunction} id="back-to-top" title="Go to top"></div>
+      <Navbar expand="lg" sticky='top' variant="dark" className={isScroll ? styles['custom-color'] : ''}>
         <Container>
-          <Navbar.Brand><span> <Image src="/drupal-logo.svg" width='50' height='50' alt='durpal-logo' /></span>Drupal Profile Finder</Navbar.Brand>
+          <Image src="/drupal-logo.svg" width='50' height='50' alt='durpal-logo' />
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Nav.Link href="https://forms.gle/YUKWQJWMszBksZ2G8" className='text-white' target='_blank'>Leave Feedback</Nav.Link>
-              <Nav.Link href="https://github.com/sonvir249/drupal-profiles" target='_blank' className='text-white'>Github</Nav.Link>
+              <small><Nav.Link href="https://forms.gle/YUKWQJWMszBksZ2G8" className={styles['nav-text']} target="_blank">Leave Feedback</Nav.Link></small>
+              <small><Nav.Link href="https://github.com/sonvir249/drupal-profiles" target='_blank' className={styles['nav-text']}>Github</Nav.Link></small>
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <SearchForm profiles={profiles} />
-      <footer className="my-4">
-        <div className='border-top'>
-          <p className={`${styles.trademark} text-center`}>Made with <Link href="https://nextjs.org/" target="_blank" className={styles.nounderline}>NEXT.js</Link></p>
-        </div>
-      </footer>
+      <div className="container">
+        <SearchForm profiles={profiles} />
+        <footer className="my-4">
+          <div className='border-top'>
+            <p className={`${styles.trademark} text-center`}>
+              Made by <Link href="https://twitter.com/sonvir249" target="_blank" className={styles.nounderline}>Sonvir </Link>
+              | Built with <Link href="https://nextjs.org/" target="_blank" className={styles.nounderline}>NEXT.js</Link>
+            </p>
+          </div>
+        </footer>
+      </div>
     </>
   )
 }
