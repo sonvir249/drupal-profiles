@@ -89,6 +89,6 @@ export async function getStaticProps() {
       errorCode,
       profiles,
     },
-    revalidate: 60,
+    revalidate: false,
   }
 }
