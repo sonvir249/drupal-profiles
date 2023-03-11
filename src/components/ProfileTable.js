@@ -35,7 +35,7 @@ export default function ProfileTable({ cardProfiles, isLoading, countriesList })
                         <th>Name</th>
                         <th>Joined On</th>
                         <th>Country</th>
-                        <th>Drupal Profile</th>
+                        <th className={styles['no-white-space']}>Drupal Profile</th>
                       </tr>
                     </thead>
                     <tbody>
