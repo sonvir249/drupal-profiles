@@ -3,10 +3,10 @@ import { useState, useEffect } from 'react'
 import countries from "i18n-iso-countries"
 import enLocale from "i18n-iso-countries/langs/en.json"
 import ProfileTable from './ProfileTable'
+
 const API_URL = 'https://www.drupal.org/api-d7'
 
 export default function SearchForm ({ profiles = null }) {
-
   const [searchedProfile, setSearchedProfile] = useState(profiles)
   const [username, setUsername] = useState('')
   const [firstName, setFirstName] = useState('')
@@ -16,7 +16,9 @@ export default function SearchForm ({ profiles = null }) {
   const [displayWarning, setDisplayWarning] = useState('hide_warning')
   const [isLoading, setLoading] = useState(false)
   const [lastPageProfiles, setLastPageProfiles] = useState({})
+  const [lastPageCount, setLastPageCount] = useState(0)
 
+  // Create form field query.
   useEffect(() => {
     makeQuery([
       {'name': username}, 
@@ -104,11 +106,13 @@ export default function SearchForm ({ profiles = null }) {
     setDisplayWarning('hide_warning')
   }
 
+  // Get last page profiles data.
   useEffect(() => {
     const paramString = searchedProfile['last'].split('?')[1];
     const urlParams = new URLSearchParams(paramString);
     const lastPage = urlParams.get('page');
-    if(!queryParam && lastPage > 0) {
+    setLastPageCount(lastPage);
+    if(lastPage > 0) {
       fetch(`${API_URL}/user.json?${queryParam}&page=${lastPage}`)
       .then(async (data) => {
         if (data.ok) {
@@ -120,16 +124,18 @@ export default function SearchForm ({ profiles = null }) {
 
   }, [searchedProfile, queryParam])
 
+  // Get total profiles count
   const getTotalProfiles = () => {
     const paramString = searchedProfile['last'].split('?')[1];
     const urlParams = new URLSearchParams(paramString);
     const lastPage = urlParams.get('page');
+
     let totalUsers = searchedProfile?.list?.length;
 
     if(lastPage == 1) {
       totalUsers = 50 + (lastPageProfiles?.list?.length)
     } else if (lastPage > 1) {
-      totalUsers = (50* (lastPage-1)) + (lastPageProfiles?.list?.length)
+      totalUsers = (50* lastPage) + (lastPageProfiles?.list?.length)
     }
 
     if(!isLoading && totalUsers > 0) {
@@ -176,7 +182,7 @@ export default function SearchForm ({ profiles = null }) {
               className="form-control"
             />
           </div>
-          <div className="col-lg-2">
+          <div className="col-lg-3">
             <select value={selectedCountry} onChange={handleCountryChange} name='country' className="form-control">
               <option value="">Select country</option>
               {countryArr?.length && countryArr.map(({label, value}, i) => (
@@ -184,7 +190,7 @@ export default function SearchForm ({ profiles = null }) {
                 ))}
             </select>
           </div>
-          <div className="col-lg-4 d-grid gap-2 d-md-block">
+          <div className="col-lg-3 d-grid gap-2 d-md-block">
               <button className={`btn btn-primary ${styles['search-button']}`} type="submit">
                 Search
               </button>
@@ -198,7 +204,13 @@ export default function SearchForm ({ profiles = null }) {
         </form>
       </div>
       <div className=''>{getTotalProfiles()}</div>
-      <ProfileTable cardProfiles={searchedProfile} isLoading={isLoading} countriesList={countries} />
+      <ProfileTable
+        cardProfiles={searchedProfile}
+        isLoading={isLoading}
+        countriesList={countries}
+        queryParam={queryParam}
+        lastPageCount={lastPageCount}
+      />
     </>
   )
 }

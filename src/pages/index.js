@@ -45,7 +45,7 @@ export default function Home({ errorCode, profiles }) {
       <Navbar expand="lg" sticky='top' variant="dark" className={isScroll ? styles['custom-color'] : ''}>
         <Container>
           <Image src="/drupal-logo.svg" width='50' height='50' alt='durpal-logo' />
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Toggle aria-controls="basic-navbar-nav" className={styles['custom-toggler']} />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               <small><Nav.Link href="https://forms.gle/YUKWQJWMszBksZ2G8" className={styles['nav-text']} target="_blank">Leave Feedback</Nav.Link></small>
