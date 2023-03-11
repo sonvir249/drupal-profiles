@@ -55,3 +55,7 @@
   border-bottom: 30px solid #0d6efd;
   cursor: pointer;
 }
+
+.no-white-space{
+  white-space: nowrap;
+}

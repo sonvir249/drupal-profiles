@@ -44,14 +44,14 @@ export default function ProfileTable({ cardProfiles, isLoading, countriesList })
                           <td>{i+1}</td>
                           <td>{user.name}</td>
                           <td>{getFullName(user?.field_first_name, user?.field_last_name)}</td>
-                          <td>{formartJoinedDate(user.created)}</td>
+                          <td className={styles['no-white-space']}>{formartJoinedDate(user.created)}</td>
                           <td>
                             {user?.field_country.length ?
                               <>{countriesList.getName(user?.field_country[0], 'en')}</>
                               : ''
                             }
                           </td>
-                          <td>
+                          <td className={styles['no-white-space']}>
                             <Link href={user.url} target='_blank' className="text-decoration-none">View profile</Link>
                           </td>
                         </tr>

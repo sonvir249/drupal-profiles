@@ -77,7 +77,7 @@ export default function SearchForm ({ profiles = null }) {
     e.preventDefault()
     setLoading(true)
     if(queryParam) {
-      fetch(`${API_URL}/user.json?${queryParam}`)
+      fetch(`${API_URL}/user.json?${queryParam}&sort=created&direction=DESC`)
       .then(async (data) => {
         if (data.ok) {
           data = await data.json()
