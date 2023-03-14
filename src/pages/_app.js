@@ -1,8 +1,7 @@
 import Head from "next/head";
-// add bootstrap css 
 import 'bootstrap/dist/css/bootstrap.css'
 import '@/styles/globals.css'
-
+import { Analytics } from '@vercel/analytics/react';
 export default function App({ Component, pageProps }) {
   return (
     <>
@@ -19,6 +18,7 @@ export default function App({ Component, pageProps }) {
         <meta property="og:description" content="Drupal Profile Finder will help you to search profiles with username, first name, last name and country." />
       </Head>
       <Component {...pageProps} />
+      <Analytics />
     </>
   )
 }
